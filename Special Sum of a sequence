@@ -1,0 +1,54 @@
+ #include<stdio.h>
+
+int main(){
+    int a, b, d;
+    
+    printf("Enter the starting number a: ");
+    scanf("%d", &a);
+    
+    printf("Enter the last number b: ");
+    scanf("%d", &b);
+    
+    printf("Enter the common difference d: ");
+    scanf("%d", &d);
+    
+    // To calculate total number of terms in the sequence
+    int terms = ((b - a) / d) + 1;
+    
+    // Print the sequence
+    printf("\nSequence: ");
+    
+    int temp = a;
+    while (temp <= b) {
+        printf("%d", temp);
+        temp += d;
+        if (temp <= b) {
+            printf(", ");
+        }
+    }
+    
+    int sum_even = 0;
+
+    // If d is even
+    if (d % 2 == 0) {
+        // Checking a is odd or even
+        if (a % 2 == 0) {
+            // All terms are even
+            sum_even = (terms / 2) * (2 * a + (terms - 1) * d);
+        }
+    }
+    // If d is odd
+    else {
+        int first_even = (a % 2 == 0) ? a : a + d;
+        if (first_even <= b) {
+            int number_of_terms = ((b - first_even) / (2 * d)) + 1;
+            sum_even = (number_of_terms / 2) * (2 * first_even + (number_of_terms - 1) * (2 * d));
+        }
+    }
+    
+    printf("\nSum of Even numbers in the sequence is: %d\n", sum_even);
+    
+    return 0;
+}
+
+
