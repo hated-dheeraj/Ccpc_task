@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markdown Notes App</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      padding: 0;
+      background: #f4f4f4;
+      text-align: center;
+    }
+
+    textarea {
+      width: 100%;
+      height: 200px;
+      padding: 10px;
+    }
+
+    button {
+      margin: 10px;
+      padding: 10px;
+      cursor: pointer;
+      background-color: beige;
+      border: none;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: lightgray;
+    }
+
+    #preview {
+      width: 100%;
+      min-height: 200px;
+      background-color: white;
+      border: 1px solid black;
+      box-sizing: border-box;
+      padding: 10px;
+      text-align: left;
+      overflow: auto;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Markdown Notes</h1>
+  <textarea id="note" placeholder="Write your note in Markdown..."></textarea>
+
+  <br>
+  <button onclick="saveNote()">Save Note</button>
+  <button onclick="exportNote()">Export as .txt</button>
+  <button onclick="updatePreview()">Preview</button>
+
+  <div id="preview"></div>
+
+  <script>
+    function updatePreview() {
+      let content = document.getElementById('note').value;
+      let preview = document.getElementById('preview');
+      preview.innerHTML = marked.parse(content); // Corrected to marked.parse(content)
+    }
+
+    function saveNote() {
+      let content = document.getElementById('note').value;
+      localStorage.setItem('savedNote', content);
+      alert('Note Saved!');
+    }
+
+    function exportNote() {
+      let content = document.getElementById('note').value;
+      let blob = new Blob([content], { type: 'text/plain' });
+      let a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'note.txt';
+      a.click();
+    }
+
+    function loadNote() {
+      let saved = localStorage.getItem('savedNote');
+      if (saved) {
+        document.getElementById('note').value = saved;
+        updatePreview();
+      }
+    }
+
+    window.onload = loadNote;
+  </script>
+</body>
+
+</html>
